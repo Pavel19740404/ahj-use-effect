@@ -50,7 +50,6 @@ function Details({ info }) {
     <div className="details">
       {avatar && (
         <img
-          key={info.id}
           className="details-avatar"
           src={avatar}
           alt={name}
