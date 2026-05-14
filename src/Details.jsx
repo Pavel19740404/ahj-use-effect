@@ -9,16 +9,23 @@ function Details({ info }) {
   useEffect(() => {
     if (!info) return;
  
+    let cancelled = false;
     setLoading(true);
     setDetails(null);
  
     fetch(`${BASE_URL}/${info.id}.json`)
       .then((res) => res.json())
       .then((data) => {
-        setDetails(data);
-        setLoading(false);
+        if (!cancelled) {
+          setDetails(data);
+          setLoading(false);
+        }
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        if (!cancelled) setLoading(false);
+      });
+ 
+    return () => { cancelled = true; };
   }, [info?.id]);
  
   if (!info) return null;
@@ -33,20 +40,26 @@ function Details({ info }) {
  
   if (!details) return null;
  
+  const avatar = details.avatar;
+  const name = details.name || info.name;
+  const city = details.details?.city || '';
+  const company = details.details?.company || '';
+  const position = details.details?.position || '';
+ 
   return (
     <div className="details">
-      {details.avatar && (
+      {avatar && (
         <img
           key={info.id}
           className="details-avatar"
-          src={details.avatar}
-          alt={details.name}
+          src={avatar}
+          alt={name}
         />
       )}
-      <div className="details-name">{details.name}</div>
-      <div className="details-row">City: {details.city}</div>
-      <div className="details-row">Company: {details.company}</div>
-      <div className="details-row">Position: {details.position}</div>
+      <div className="details-name">{name}</div>
+      <div className="details-row">City: {city || '—'}</div>
+      <div className="details-row">Company: {company || '—'}</div>
+      <div className="details-row">Position: {position || '—'}</div>
     </div>
   );
 }
