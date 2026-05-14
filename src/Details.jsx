@@ -40,7 +40,7 @@ function Details({ info }) {
  
   if (!details) return null;
  
-  const avatar = details.avatar;
+  const avatar = details.avatar ? `${details.avatar}?img=1` : null;
   const name = details.name || info.name;
   const city = details.details?.city || '';
   const company = details.details?.company || '';
