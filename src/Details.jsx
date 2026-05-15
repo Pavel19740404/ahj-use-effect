@@ -1,3 +1,6 @@
+Details · JSX
+Copy
+
 import React, { useState, useEffect } from 'react';
  
 const BASE_URL = 'https://raw.githubusercontent.com/netology-code/ra16-homeworks/master/hooks-context/use-effect/data';
@@ -40,7 +43,7 @@ function Details({ info }) {
  
   if (!details) return null;
  
-  const avatar = details.avatar ? `${details.avatar}?img=1` : null;
+  const avatar = details.avatar;
   const name = details.name || info.name;
   const city = details.details?.city || '';
   const company = details.details?.company || '';
@@ -50,8 +53,9 @@ function Details({ info }) {
     <div className="details">
       {avatar && (
         <img
+          key={info.id}
           className="details-avatar"
-          src={avatar}
+          src={`${avatar}?u=${info.id}`}
           alt={name}
         />
       )}
